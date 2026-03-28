@@ -756,11 +756,11 @@ with st.expander("🔍 Détail des coefficients de modulation"):
                 f"{c['cep_moy']}",
                 f"{c['ic_moy']}",
                 f"{c['mcgeo']:.2f} %",
-                f"{c['mcsurf_moy']:.2f} %",
-                f"{c['mcsurf_tot']:.2f} %",
-                f"{c['mccat']:.2f} %",
-                f"{c['mchsp']:.2f} %",
-                f"**{c['sum_mc']:.2f} %**",
+                f"{c['mcsurf_moy']:.2f}",
+                f"{c['mcsurf_tot']:.2f}",
+                f"{c['mccat']:.2f}",
+                f"{c['mchsp']:.2f}",
+                f"**{c['sum_mc']:.2f}**",
             ],
         })
 
@@ -770,8 +770,8 @@ with st.expander("🔍 Détail des coefficients de modulation"):
             "Coefficient": ["Icc_maxmoyen", "Misurf_moy", "Misurf_tot", "Miinfra (Iclot2)", "Mivrd (Iclot1)", "Mipv", "Mided", "Miagrément", "Mi_HSP", "Miclim_RCU"],
             "Valeur": [
                 f"{c['icc_moy']:.2f}" if c['icc_moy'] else "—",
-                f"{c['misurf_moy']:.2f} %",
-                f"{c['misurf_tot']:.2f} %",
+                f"{c['misurf_moy']:.2f}",
+                f"{c['misurf_tot']:.2f}",
                 f"+{c['miinfra']:.0f}",
                 f"+{c['mivrd']:.0f}",
                 f"{c['mipv']:.0f}",
