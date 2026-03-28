@@ -410,7 +410,7 @@ def get_icc_key(usage):
 def calculate(
     usage, du, zone, sref, nl, hsp, sagr, bruit, categorie, inertie,
     annee_pc, igh, rcu, rcu_classe, clim, iclot1, iclot2, iclot13, icded,
-    distance="<400m",
+    elevation="<400m",
 ):
     is_logement = usage in ("Maisons_individuelles_ou_accolées", "Logement_collectif")
     is_ml = usage == "Maisons_individuelles_ou_accolées"
@@ -425,7 +425,7 @@ def calculate(
     if bbio_moy is not None:
         # Calculer mbgeo en utilisant MBGEO_VALEURS
         try:
-            mbgeo = MBGEO_VALEURS.loc[zone, (usage, distance)]
+            mbgeo = MBGEO_VALEURS.loc[zone, (usage, elevation)]
         except (KeyError, TypeError):
             mbgeo = 0.0
         if is_lc and smoy is not None:
@@ -610,11 +610,11 @@ with col_left:
     zone = ZONES[departement][0]
     st.info(f"🌍 Zone climatique : **{zone}**")
 
-    distance_display = st.radio("Élévation du site", 
+    elevation_display = st.radio("Élévation du site", 
                                 ["< 400 m", "400 à 800 m", "> 800 m"], 
                                 horizontal=True)
-    distance_map = {"< 400 m": "<400m", "400 à 800 m": "400m-800m", "> 800 m": ">800m"}
-    distance = distance_map[distance_display]
+    elevation_map = {"< 400 m": "<400m", "400 à 800 m": "400m-800m", "> 800 m": ">800m"}
+    elevation = elevation_map[elevation_display]
     annee_map = {
         "2022 à 2024": "2022_2024",
         "2025 à 2027": "2025_2027",
@@ -687,7 +687,7 @@ results = calculate(
     bruit=bruit, categorie=categorie_int, inertie=inertie,
     annee_pc=annee_pc, igh=igh, rcu=rcu, rcu_classe=rcu_classe, clim=clim,
     iclot1=iclot1, iclot2=iclot2, iclot13=iclot13, icded=icded,
-    distance=distance,
+    elevation=elevation,
 )
 
 # ─── Affichage des résultats ──────────────────────────────────────────────────
