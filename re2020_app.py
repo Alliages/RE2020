@@ -14,6 +14,88 @@ st.set_page_config(
 
 # ─── Données de référence ──────────────────────────────────────────────────────
 
+import pandas as pd
+
+MBGEO_VALEURS = pd.DataFrame(
+    {
+        ('Maisons_individuelles_ou_accolées', '<400m'):       {'H1a': 0.15, 'H1b': 0.20, 'H1c': 0.20, 'H2a':-0.05, 'H2b': 0.00, 'H2c':-0.10, 'H2d': 0.05, 'H3':-0.10},
+        ('Maisons_individuelles_ou_accolées', '400m-800m'):   {'H1a': 0.40, 'H1b': 0.50, 'H1c': 0.45, 'H2a': 0.15, 'H2b': 0.30, 'H2c': 0.05, 'H2d': 0.10, 'H3':-0.05},
+        ('Maisons_individuelles_ou_accolées', '>800m'):       {'H1a': 0.75, 'H1b': 0.85, 'H1c': 0.75, 'H2a': 0.55, 'H2b': 0.65, 'H2c': 0.35, 'H2d': 0.25, 'H3': 0.10},
+        ('Logement_collectif', '<400m'):                      {'H1a': 0.10, 'H1b': 0.20, 'H1c': 0.15, 'H2a':-0.10, 'H2b': 0.00, 'H2c':-0.10, 'H2d': 0.00, 'H3':-0.10},
+        ('Logement_collectif', '400m-800m'):                  {'H1a': 0.40, 'H1b': 0.50, 'H1c': 0.45, 'H2a': 0.20, 'H2b': 0.30, 'H2c': 0.10, 'H2d': 0.20, 'H3':-0.05},
+        ('Logement_collectif', '>800m'):                      {'H1a': 0.80, 'H1b': 0.85, 'H1c': 0.75, 'H2a': 0.60, 'H2b': 0.65, 'H2c': 0.40, 'H2d': 0.40, 'H3': 0.15},
+        ('Bureaux', '<400m'):                                 {'H1a': 0.05, 'H1b': 0.10, 'H1c': 0.20, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.10, 'H2d': 0.30, 'H3': 0.25},
+        ('Bureaux', '400m-800m'):                             {'H1a': 0.25, 'H1b': 0.25, 'H1c': 0.20, 'H2a': 0.20, 'H2b': 0.20, 'H2c': 0.10, 'H2d': 0.10, 'H3':-0.05},
+        ('Bureaux', '>800m'):                                 {'H1a': 0.45, 'H1b': 0.45, 'H1c': 0.40, 'H2a': 0.40, 'H2b': 0.35, 'H2c': 0.25, 'H2d': 0.30, 'H3': 0.10},
+        ('Enseignement_primaire_ou_secondaire', '<400m'):     {'H1a': 0.10, 'H1b': 0.20, 'H1c': 0.25, 'H2a':-0.10, 'H2b': 0.00, 'H2c': 0.05, 'H2d': 0.50, 'H3': 0.50},
+        ('Enseignement_primaire_ou_secondaire', '400m-800m'): {'H1a': 0.25, 'H1b': 0.30, 'H1c': 0.25, 'H2a': 0.05, 'H2b': 0.10, 'H2c': 0.00, 'H2d': 0.35, 'H3': 0.25},
+        ('Enseignement_primaire_ou_secondaire', '>800m'):     {'H1a': 0.45, 'H1b': 0.45, 'H1c': 0.40, 'H2a': 0.30, 'H2b': 0.35, 'H2c': 0.20, 'H2d': 0.30, 'H3': 0.20},
+        ('Médiathèques_et_bibliothèques', '<400m'):           {'H1a': 0.05, 'H1b': 0.20, 'H1c': 0.25, 'H2a':-0.10, 'H2b': 0.00, 'H2c': 0.00, 'H2d': 0.30, 'H3': 0.20},
+        ('Médiathèques_et_bibliothèques', '400m-800m'):       {'H1a': 0.20, 'H1b': 0.30, 'H1c': 0.30, 'H2a': 0.00, 'H2b': 0.10, 'H2c': 0.00, 'H2d': 0.25, 'H3': 0.15},
+        ('Médiathèques_et_bibliothèques', '>800m'):           {'H1a': 0.40, 'H1b': 0.50, 'H1c': 0.40, 'H2a': 0.15, 'H2b': 0.30, 'H2c': 0.10, 'H2d': 0.25, 'H3': 0.15},
+        ("Bâtiments_universitaires_d'enseignement_et_de_recherche_et_bâtiments_d'enseignements_atypiques", '<400m'):     {'H1a': 0.10, 'H1b': 0.20, 'H1c': 0.20, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.00, 'H2d': 0.20, 'H3': 0.20},
+        ("Bâtiments_universitaires_d'enseignement_et_de_recherche_et_bâtiments_d'enseignements_atypiques", '400m-800m'): {'H1a': 0.30, 'H1b': 0.35, 'H1c': 0.35, 'H2a': 0.10, 'H2b': 0.20, 'H2c': 0.05, 'H2d': 0.25, 'H3': 0.15},
+        ("Bâtiments_universitaires_d'enseignement_et_de_recherche_et_bâtiments_d'enseignements_atypiques", '>800m'):     {'H1a': 0.50, 'H1b': 0.60, 'H1c': 0.50, 'H2a': 0.30, 'H2b': 0.40, 'H2c': 0.20, 'H2d': 0.25, 'H3': 0.15},
+        ('Hôtels', '<400m'):                                  {'H1a': 0.15, 'H1b': 0.20, 'H1c': 0.20, 'H2a': 0.00, 'H2b': 0.00, 'H2c':-0.10, 'H2d': 0.00, 'H3':-0.15},
+        ('Hôtels', '400m-800m'):                              {'H1a': 0.45, 'H1b': 0.45, 'H1c': 0.40, 'H2a': 0.25, 'H2b': 0.30, 'H2c': 0.15, 'H2d': 0.15, 'H3':-0.05},
+        ('Hôtels', '>800m'):                                  {'H1a': 0.75, 'H1b': 0.80, 'H1c': 0.70, 'H2a': 0.60, 'H2b': 0.60, 'H2c': 0.40, 'H2d': 0.40, 'H3': 0.15},
+        ("Etablissements_d'accueil_de_la_petite_enfance", '<400m'):     {'H1a': 0.15, 'H1b': 0.20, 'H1c': 0.20, 'H2a': 0.00, 'H2b': 0.00, 'H2c':-0.10, 'H2d': 0.00, 'H3':-0.15},
+        ("Etablissements_d'accueil_de_la_petite_enfance", '400m-800m'): {'H1a': 0.45, 'H1b': 0.45, 'H1c': 0.40, 'H2a': 0.25, 'H2b': 0.30, 'H2c': 0.15, 'H2d': 0.15, 'H3':-0.05},
+        ("Etablissements_d'accueil_de_la_petite_enfance", '>800m'):     {'H1a': 0.75, 'H1b': 0.75, 'H1c': 0.65, 'H2a': 0.60, 'H2b': 0.60, 'H2c': 0.40, 'H2d': 0.40, 'H3': 0.15},
+        ('Restaurants', '<400m'):                             {'H1a': 0.10, 'H1b': 0.15, 'H1c': 0.25, 'H2a':-0.10, 'H2b': 0.00, 'H2c': 0.00, 'H2d': 0.35, 'H3': 0.25},
+        ('Restaurants', '400m-800m'):                         {'H1a': 0.25, 'H1b': 0.30, 'H1c': 0.35, 'H2a': 0.05, 'H2b': 0.15, 'H2c': 0.05, 'H2d': 0.30, 'H3': 0.15},
+        ('Restaurants', '>800m'):                             {'H1a': 0.45, 'H1b': 0.55, 'H1c': 0.50, 'H2a': 0.30, 'H2b': 0.35, 'H2c': 0.20, 'H2d': 0.35, 'H3': 0.15},
+        ('Commerces', '<400m'):                               {'H1a': 0.05, 'H1b': 0.15, 'H1c': 0.20, 'H2a':-0.10, 'H2b': 0.00, 'H2c':-0.05, 'H2d': 0.25, 'H3': 0.10},
+        ('Commerces', '400m-800m'):                           {'H1a': 0.25, 'H1b': 0.30, 'H1c': 0.30, 'H2a': 0.10, 'H2b': 0.15, 'H2c': 0.05, 'H2d': 0.25, 'H3': 0.10},
+        ('Commerces', '>800m'):                               {'H1a': 0.45, 'H1b': 0.50, 'H1c': 0.45, 'H2a': 0.30, 'H2b': 0.35, 'H2c': 0.20, 'H2d': 0.30, 'H3': 0.15},
+        ('Vestiaires_seuls', '<400m'):                        {'H1a': 0.10, 'H1b': 0.15, 'H1c': 0.10, 'H2a': 0.00, 'H2b': 0.00, 'H2c':-0.10, 'H2d': 0.10, 'H3': 0.00},
+        ('Vestiaires_seuls', '400m-800m'):                    {'H1a': 0.25, 'H1b': 0.30, 'H1c': 0.25, 'H2a': 0.15, 'H2b': 0.20, 'H2c': 0.05, 'H2d': 0.10, 'H3': 0.05},
+        ('Vestiaires_seuls', '>800m'):                        {'H1a': 0.45, 'H1b': 0.50, 'H1c': 0.40, 'H2a': 0.40, 'H2b': 0.40, 'H2c': 0.25, 'H2d': 0.25, 'H3': 0.15},
+        ('Etablissements_sanitaires_avec_hébergement', '<400m'):     {'H1a': 0.05, 'H1b': 0.10, 'H1c': 0.20, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.05, 'H2d': 0.25, 'H3': 0.15},
+        ('Etablissements_sanitaires_avec_hébergement', '400m-800m'): {'H1a': 0.15, 'H1b': 0.20, 'H1c': 0.25, 'H2a': 0.05, 'H2b': 0.10, 'H2c': 0.05, 'H2d': 0.25, 'H3': 0.15},
+        ('Etablissements_sanitaires_avec_hébergement', '>800m'):     {'H1a': 0.30, 'H1b': 0.35, 'H1c': 0.35, 'H2a': 0.20, 'H2b': 0.25, 'H2c': 0.15, 'H2d': 0.30, 'H3': 0.15},
+        ('Etablissements_de_santé', '<400m'):                 {'H1a': 0.10, 'H1b': 0.15, 'H1c': 0.20, 'H2a': 0.00, 'H2b': 0.00, 'H2c':-0.05, 'H2d': 0.20, 'H3': 0.10},
+        ('Etablissements_de_santé', '400m-800m'):             {'H1a': 0.30, 'H1b': 0.35, 'H1c': 0.30, 'H2a': 0.20, 'H2b': 0.20, 'H2c': 0.05, 'H2d': 0.20, 'H3': 0.15},
+        ('Etablissements_de_santé', '>800m'):                 {'H1a': 0.55, 'H1b': 0.55, 'H1c': 0.50, 'H2a': 0.45, 'H2b': 0.45, 'H2c': 0.25, 'H2d': 0.30, 'H3': 0.20},
+        ('Aérogares', '<400m'):                               {'H1a': 0.05, 'H1b': 0.10, 'H1c': 0.15, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.00, 'H2d': 0.15, 'H3': 0.10},
+        ('Aérogares', '400m-800m'):                           {'H1a': 0.20, 'H1b': 0.25, 'H1c': 0.25, 'H2a': 0.10, 'H2b': 0.15, 'H2c': 0.05, 'H2d': 0.20, 'H3': 0.10},
+        ('Aérogares', '>800m'):                               {'H1a': 0.35, 'H1b': 0.40, 'H1c': 0.35, 'H2a': 0.25, 'H2b': 0.30, 'H2c': 0.15, 'H2d': 0.25, 'H3': 0.15},
+        ('Industries_ou_artisanats', '<400m'):                {'H1a': 0.05, 'H1b': 0.15, 'H1c': 0.15, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.00, 'H2d': 0.20, 'H3': 0.10},
+        ('Industries_ou_artisanats', '400m-800m'):            {'H1a': 0.20, 'H1b': 0.25, 'H1c': 0.25, 'H2a': 0.05, 'H2b': 0.15, 'H2c': 0.05, 'H2d': 0.20, 'H3': 0.15},
+        ('Industries_ou_artisanats', '>800m'):                {'H1a': 0.35, 'H1b': 0.40, 'H1c': 0.35, 'H2a': 0.25, 'H2b': 0.30, 'H2c': 0.15, 'H2d': 0.30, 'H3': 0.20},
+        ('Etablissements_sportifs_municipaux_ou_scolaires', '<400m'):     {'H1a': 0.05, 'H1b': 0.10, 'H1c': 0.15, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.05, 'H2d': 0.30, 'H3': 0.25},
+        ('Etablissements_sportifs_municipaux_ou_scolaires', '400m-800m'): {'H1a': 0.10, 'H1b': 0.20, 'H1c': 0.20, 'H2a': 0.00, 'H2b': 0.10, 'H2c': 0.00, 'H2d': 0.25, 'H3': 0.20},
+        ('Etablissements_sportifs_municipaux_ou_scolaires', '>800m'):     {'H1a': 0.20, 'H1b': 0.30, 'H1c': 0.25, 'H2a': 0.15, 'H2b': 0.20, 'H2c': 0.10, 'H2d': 0.25, 'H3': 0.20},
+        ('Restaurants_scolaires', '<400m'):                   {'H1a': 0.05, 'H1b': 0.10, 'H1c': 0.10, 'H2a':-0.05, 'H2b': 0.00, 'H2c':-0.10, 'H2d': 0.00, 'H3':-0.10},
+        ('Restaurants_scolaires', '400m-800m'):               {'H1a': 0.30, 'H1b': 0.30, 'H1c': 0.25, 'H2a': 0.20, 'H2b': 0.25, 'H2c': 0.05, 'H2d': 0.10, 'H3': 0.00},
+        ('Restaurants_scolaires', '>800m'):                   {'H1a': 0.55, 'H1b': 0.55, 'H1c': 0.50, 'H2a': 0.45, 'H2b': 0.50, 'H2c': 0.30, 'H2d': 0.25, 'H3': 0.15},
+        ('Etablissements_sportifs_privés', '<400m'):          {'H1a': 0.10, 'H1b': 0.15, 'H1c': 0.15, 'H2a':-0.05, 'H2b': 0.00, 'H2c':-0.05, 'H2d': 0.05, 'H3':-0.05},
+        ('Etablissements_sportifs_privés', '400m-800m'):      {'H1a': 0.25, 'H1b': 0.30, 'H1c': 0.25, 'H2a': 0.15, 'H2b': 0.15, 'H2c': 0.10, 'H2d': 0.10, 'H3':-0.05},
+        ('Etablissements_sportifs_privés', '>800m'):          {'H1a': 0.45, 'H1b': 0.50, 'H1c': 0.45, 'H2a': 0.30, 'H2b': 0.35, 'H2c': 0.25, 'H2d': 0.20, 'H3': 0.05},
+        ('Etablissements_de_santé - partie nuit', '<400m'):    {'H1a': 0.05, 'H1b': 0.15, 'H1c': 0.20, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.00, 'H2d': 0.20, 'H3': 0.10},
+        ('Etablissements_de_santé - partie nuit', '400m-800m'):{'H1a': 0.25, 'H1b': 0.30, 'H1c': 0.30, 'H2a': 0.15, 'H2b': 0.20, 'H2c': 0.10, 'H2d': 0.25, 'H3': 0.10},
+        ('Etablissements_de_santé - partie nuit', '>800m'):    {'H1a': 0.45, 'H1b': 0.50, 'H1c': 0.45, 'H2a': 0.35, 'H2b': 0.40, 'H2c': 0.25, 'H2d': 0.35, 'H3': 0.20},
+        ('Etablissements_de_santé - partie jour', '<400m'):    {'H1a': 0.05, 'H1b': 0.15, 'H1c': 0.20, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.00, 'H2d': 0.25, 'H3': 0.20},
+        ('Etablissements_de_santé - partie jour', '400m-800m'):{'H1a': 0.15, 'H1b': 0.20, 'H1c': 0.20, 'H2a': 0.05, 'H2b': 0.05, 'H2c': 0.00, 'H2d': 0.20, 'H3': 0.10},
+        ('Etablissements_de_santé - partie jour', '>800m'):    {'H1a': 0.25, 'H1b': 0.30, 'H1c': 0.25, 'H2a': 0.15, 'H2b': 0.20, 'H2c': 0.10, 'H2d': 0.15, 'H3': 0.10},
+        ('Industries_ou_artisanats - 3x8h', '<400m'):          {'H1a': 0.05, 'H1b': 0.05, 'H1c': 0.10, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.05, 'H2d': 0.25, 'H3': 0.25},
+        ('Industries_ou_artisanats - 3x8h', '400m-800m'):      {'H1a': 0.05, 'H1b': 0.10, 'H1c': 0.10, 'H2a': 0.00, 'H2b': 0.05, 'H2c': 0.05, 'H2d': 0.20, 'H3': 0.15},
+        ('Industries_ou_artisanats - 3x8h', '>800m'):          {'H1a': 0.10, 'H1b': 0.15, 'H1c': 0.15, 'H2a': 0.05, 'H2b': 0.10, 'H2c': 0.05, 'H2d': 0.20, 'H3': 0.10},
+        ('Industries_ou_artisanats - 8h à 18h', '<400m'):      {'H1a': 0.10, 'H1b': 0.15, 'H1c': 0.25, 'H2a':-0.05, 'H2b': 0.00, 'H2c': 0.05, 'H2d': 0.40, 'H3': 0.35},
+        ('Industries_ou_artisanats - 8h à 18h', '400m-800m'):  {'H1a': 0.20, 'H1b': 0.25, 'H1c': 0.30, 'H2a': 0.05, 'H2b': 0.10, 'H2c': 0.05, 'H2d': 0.40, 'H3': 0.30},
+        ('Industries_ou_artisanats - 8h à 18h', '>800m'):      {'H1a': 0.35, 'H1b': 0.40, 'H1c': 0.45, 'H2a': 0.20, 'H2b': 0.25, 'H2c': 0.15, 'H2d': 0.35, 'H3': 0.25},
+        ('Restaurants_scolaires - 1 repas par jour, 5 jours sur 7', '<400m'):     {'H1a': 0.15, 'H1b': 0.20, 'H1c': 0.15, 'H2a':-0.05, 'H2b': 0.00, 'H2c':-0.05, 'H2d': 0.10, 'H3': 0.10},
+        ('Restaurants_scolaires - 1 repas par jour, 5 jours sur 7', '400m-800m'): {'H1a': 0.35, 'H1b': 0.40, 'H1c': 0.35, 'H2a': 0.20, 'H2b': 0.25, 'H2c': 0.10, 'H2d': 0.20, 'H3': 0.10},
+        ('Restaurants_scolaires - 1 repas par jour, 5 jours sur 7', '>800m'):     {'H1a': 0.65, 'H1b': 0.65, 'H1c': 0.60, 'H2a': 0.50, 'H2b': 0.55, 'H2c': 0.35, 'H2d': 0.35, 'H3': 0.25},
+        ('Restaurants_scolaires - 3 repas par jour, 5 jours sur 7', '<400m'):     {'H1a': 0.10, 'H1b': 0.15, 'H1c': 0.15, 'H2a':-0.05, 'H2b': 0.00, 'H2c':-0.05, 'H2d': 0.10, 'H3': 0.10},
+        ('Restaurants_scolaires - 3 repas par jour, 5 jours sur 7', '400m-800m'): {'H1a': 0.30, 'H1b': 0.35, 'H1c': 0.30, 'H2a': 0.15, 'H2b': 0.20, 'H2c': 0.10, 'H2d': 0.20, 'H3': 0.10},
+        ('Restaurants_scolaires - 3 repas par jour, 5 jours sur 7', '>800m'):     {'H1a': 0.55, 'H1b': 0.55, 'H1c': 0.50, 'H2a': 0.45, 'H2b': 0.45, 'H2c': 0.30, 'H2d': 0.35, 'H3': 0.20},
+    }
+)
+# MBGEO_VALEURS.index.name = 'Zone'
+# MBGEO_VALEURS.columns.names = ['Type_batiment', 'Distance']
+
+
 ZONES = {
     "Ain": ("H1c", 1), "Aisne": ("H1a", 2), "Allier": ("H1c", 3),
     "Alpes-de-Haute-Provence": ("H2d", 4), "Alpes-Maritimes": ("H3", 6),
@@ -328,6 +410,7 @@ def get_icc_key(usage):
 def calculate(
     usage, du, zone, sref, nl, hsp, sagr, bruit, categorie, inertie,
     annee_pc, igh, rcu, rcu_classe, clim, iclot1, iclot2, iclot13, icded,
+    distance="<400m",
 ):
     is_logement = usage in ("Maisons_individuelles_ou_accolées", "Logement_collectif")
     is_ml = usage == "Maisons_individuelles_ou_accolées"
@@ -340,8 +423,11 @@ def calculate(
     mbgeo = mbcombles = mbsurf_moy = mbsurf_tot = mbbruit = mbhsp = 0.0
 
     if bbio_moy is not None:
-        if is_lc and zone in ("H2d", "H3"):
-            mbgeo = 0.10
+        # Calculer mbgeo en utilisant MBGEO_VALEURS
+        try:
+            mbgeo = MBGEO_VALEURS.loc[zone, (usage, distance)]
+        except (KeyError, TypeError):
+            mbgeo = 0.0
         if is_lc and smoy is not None:
             mbsurf_moy = max(-0.15, min(0.15, (65 - smoy) / 65 * 0.15))
         if is_lc:
@@ -524,7 +610,11 @@ with col_left:
     zone = ZONES[departement][0]
     st.info(f"🌍 Zone climatique : **{zone}**")
 
-    elev = st.radio("Élévation du site", ["< 400 m", "≥ 400 m"], horizontal=True)
+    distance_display = st.radio("Élévation du site", 
+                                ["< 400 m", "400 à 800 m", "> 800 m"], 
+                                horizontal=True)
+    distance_map = {"< 400 m": "<400m", "400 à 800 m": "400m-800m", "> 800 m": ">800m"}
+    distance = distance_map[distance_display]
     annee_map = {
         "2022 à 2024": "2022_2024",
         "2025 à 2027": "2025_2027",
@@ -597,6 +687,7 @@ results = calculate(
     bruit=bruit, categorie=categorie_int, inertie=inertie,
     annee_pc=annee_pc, igh=igh, rcu=rcu, rcu_classe=rcu_classe, clim=clim,
     iclot1=iclot1, iclot2=iclot2, iclot13=iclot13, icded=icded,
+    distance=distance,
 )
 
 # ─── Affichage des résultats ──────────────────────────────────────────────────
@@ -645,12 +736,12 @@ with st.expander("🔍 Détail des coefficients de modulation"):
             "Coefficient": ["Bbio_maxmoyen", "Mbgéo", "Mbsurf_moy", "Mbsurf_tot", "Mbbruit", "MbHSP", "**Σ Mb**"],
             "Valeur": [
                 f"{c['bbio_moy']}",
-                f"{c['mbgeo']*100:.2f} %",
-                f"{c['mbsurf_moy']*100:.2f} %",
-                f"{c['mbsurf_tot']*100:.2f} %",
-                f"{c['mbbruit']*100:.2f} %",
-                f"{c['mbhsp']*100:.2f} %",
-                f"**{c['sum_mb']*100:.2f} %**",
+                f"{c['mbgeo']:.2f}",
+                f"{c['mbsurf_moy']:.2f}",
+                f"{c['mbsurf_tot']:.2f}",
+                f"{c['mbbruit']:.2f}",
+                f"{c['mbhsp']:.2f}",
+                f"**{c['sum_mb']:.2f}**",
             ],
         })
         if results["bbio_max"]:
@@ -664,12 +755,12 @@ with st.expander("🔍 Détail des coefficients de modulation"):
                 f"{c['cepnr_moy']}",
                 f"{c['cep_moy']}",
                 f"{c['ic_moy']}",
-                f"{c['mcgeo']*100:.2f} %",
-                f"{c['mcsurf_moy']*100:.2f} %",
-                f"{c['mcsurf_tot']*100:.2f} %",
-                f"{c['mccat']*100:.2f} %",
-                f"{c['mchsp']*100:.2f} %",
-                f"**{c['sum_mc']*100:.2f} %**",
+                f"{c['mcgeo']:.2f} %",
+                f"{c['mcsurf_moy']:.2f} %",
+                f"{c['mcsurf_tot']:.2f} %",
+                f"{c['mccat']:.2f} %",
+                f"{c['mchsp']:.2f} %",
+                f"**{c['sum_mc']:.2f} %**",
             ],
         })
 
@@ -679,8 +770,8 @@ with st.expander("🔍 Détail des coefficients de modulation"):
             "Coefficient": ["Icc_maxmoyen", "Misurf_moy", "Misurf_tot", "Miinfra (Iclot2)", "Mivrd (Iclot1)", "Mipv", "Mided", "Miagrément", "Mi_HSP", "Miclim_RCU"],
             "Valeur": [
                 f"{c['icc_moy']:.2f}" if c['icc_moy'] else "—",
-                f"{c['misurf_moy']*100:.2f} %",
-                f"{c['misurf_tot']*100:.2f} %",
+                f"{c['misurf_moy']:.2f} %",
+                f"{c['misurf_tot']:.2f} %",
                 f"+{c['miinfra']:.0f}",
                 f"+{c['mivrd']:.0f}",
                 f"{c['mipv']:.0f}",
