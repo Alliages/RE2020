@@ -545,11 +545,11 @@ def calculate(
 # ─── Interface Streamlit ───────────────────────────────────────────────────────
 
 st.title("🏗️ Calculateur Seuils RE2020")
-st.caption("Version 2.1 — mars 2026 · Document non officiel basé sur les textes réglementaires RE2020 · GNU GPL v3")
+st.caption("Version 0.1 source : https://github.com/Alliages/RE2020/ mars 2026 · Document non officiel basé sur les textes réglementaires RE2020 · GNU GPL v3")
 
 st.warning(
-    "⚠️ Outil non officiel réalisé d'après le fichier de Guillaume Meunier. "
-    "À utiliser avec toutes les vérifications nécessaires sur legifrance.gouv.fr",
+    "NE FONCTIONNE PAS (encore) -- Outil non officiel réalisé d'après le fichier de Guillaume Meunier. "
+    "⚠️ À utiliser avec toutes les vérifications nécessaires sur legifrance.gouv.fr",
     icon="⚠️",
 )
 
